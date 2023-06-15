@@ -1,7 +1,7 @@
 name:                spacetraders
 version:             0.1.0.0
 github:              "githubuser/spacetraders"
-license:             GNU-3.0
+license:             GPL-3
 author:              "Author name here"
 maintainer:          "example@example.com"
 copyright:           "2023 Author name here"
@@ -21,6 +21,8 @@ description:         Please see the README on GitHub at <https://github.com/gith
 
 dependencies:
 - base >= 4.7 && < 5
+- http-conduit >= 2.3.8
+- aeson >= 2.0.3
 
 ghc-options:
 - -Wall
@@ -35,6 +37,8 @@ ghc-options:
 
 library:
   source-dirs: src
+  default-extensions:
+    - OverloadedStrings
 
 executables:
   spacetraders-exe:
@@ -46,6 +50,9 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - spacetraders
+    when:        
+    - condition: false        
+      other-modules: Paths_spacetraders
 
 tests:
   spacetraders-test:
@@ -55,5 +62,9 @@ tests:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
+    - -XOverloadedStrings
     dependencies:
     - spacetraders
+    - hspec >= 2.9.7
+    - hlint >= 3.4.1
+    - QuickCheck

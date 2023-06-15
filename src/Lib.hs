@@ -1,6 +1,8 @@
 module Lib
-    ( someFunc
+    ( begin, tokenMVar, tryTakeMVar
     ) where
 
-someFunc :: IO ()
-someFunc = putStrLn "someFunc"
+import Login (login, tokenMVar, tryTakeMVar)
+
+begin :: IO String
+begin = login
