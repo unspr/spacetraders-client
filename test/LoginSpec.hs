@@ -4,7 +4,8 @@ import Test.Hspec
 import Test.QuickCheck
 import Control.Exception (evaluate)
 
-import Login (tokenMVar, tryTakeMVar, loginImp, Tmp(Tmp))
+import Login (loginImp, AutoToken(AutoToken))
+import Context(tokenMVar, tryReadMVar)
 import Data.Maybe (fromJust)
 import Data.Aeson
 
@@ -12,12 +13,18 @@ spec :: Spec
 spec = do
   describe "login" $ do
     it "log in and save auth token" $ do
-      loginImp (return "test-user") (\url body -> do
+      resultStr <- loginImp (return "test-user") (\url mHeader mBody -> do
         url `shouldBe` "POST https://api.spacetraders.io/v2/register"
-        body `shouldBe` object ["symbol" .= ("test-user" :: String), "faction" .= ("COSMIC" :: String)]
-        return $ Tmp "auth_token")
-      token <- tryTakeMVar tokenMVar
+        mHeader `shouldBe` Nothing
+        mBody `shouldBe` Just (object
+          ["symbol" .= ("test-user" :: String)
+          , "faction" .= ("COSMIC" :: String)
+          ])
+        return $ AutoToken "auth_token")
+      token <- tryReadMVar tokenMVar
       fromJust token `shouldBe` "auth_token"
+      resultStr `shouldBe` "login success"
+
   describe "Prelude.head" $ do
     it "returns the first element of a list" $ do
       head [23 ..] `shouldBe` (23 :: Int)

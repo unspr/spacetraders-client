@@ -23,6 +23,7 @@ dependencies:
 - base >= 4.7 && < 5
 - http-conduit >= 2.3.8
 - aeson >= 2.0.3
+- utf8-string
 
 ghc-options:
 - -Wall

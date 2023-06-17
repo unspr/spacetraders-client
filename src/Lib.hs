@@ -1,8 +1,7 @@
-module Lib
-    ( begin, tokenMVar, tryTakeMVar
-    ) where
+module Lib where
 
-import Login (login, tokenMVar, tryTakeMVar)
+import Login (login )
+import Agent
 
 begin :: IO String
 begin = login
