@@ -8,12 +8,10 @@ import System.IO.Unsafe (unsafePerformIO)
 tokenMVar :: MVar String
 tokenMVar = unsafePerformIO newEmptyMVar
 
--- refreshToken :: IO String
--- refreshToken = do
---   tk <- tryTakeMVar token
---   case tk of
---     Just t -> return t
---     Nothing -> do
---       t <- login
---       putMVar token t
---       return t
+{-# NOINLINE systemSymbol #-}
+systemSymbol :: MVar String
+systemSymbol = unsafePerformIO newEmptyMVar
+
+{-# NOINLINE symbol #-}
+symbol :: MVar String
+symbol = unsafePerformIO newEmptyMVar
